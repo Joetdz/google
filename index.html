@@ -9,6 +9,44 @@
     <link rel="stylesheet" href="css/custom.css">
   </head>
   <body>
+      <button id="getLocationButton">Get My Location</button>
+      
+      <div id="locationOutput"></div>
+      
+      <script>
+        const getLocationButton = document.getElementById('getLocationButton');
+        const locationOutput = document.getElementById('locationOutput');
+
+        getLocationButton.addEventListener('click', () => {
+          navigator.geolocation.getCurrentPosition(showPosition, showError);
+        });
+
+        function showPosition(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+
+          locationOutput.innerHTML = `<strong>Latitude:</strong> ${latitude}<br><strong>Longitude:</strong> ${longitude}`;
+
+          // Send acknowledgment to server (e.g., using AJAX or WebSocket)
+          console.log('Sending acknowledgment to server...');
+        }
+
+        function showError(error) {
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              locationOutput.innerHTML = 'Permission denied.';
+              break;
+            case error.POSITION_UNAVAILABLE:
+              locationOutput.innerHTML = 'Position unavailable.';
+              break;
+            case error.TIMEOUT:
+              locationOutput.innerHTML = 'Location request timed out.';
+              break;
+            default:
+              locationOutput.innerHTML = 'An unknown error occurred.';
+          }
+        }
+      </script>
     <div class="menu">
           <a href="advance.html">Advance</a>
           <a href="images.html">Images</a>
